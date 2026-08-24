@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: surveyflow-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: ADMIN_USER
+        value: Admin
+      - key: ADMIN_PASSWORD
+        value: Dumm
+      - key: ALLOWED_ORIGINS
+        value: https://bens-c.github.io
