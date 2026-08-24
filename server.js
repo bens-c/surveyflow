@@ -33,6 +33,11 @@ function requireAdmin(req, res, next) {
   res.status(401).json({ error: "Admin-Login erforderlich" });
 }
 
+app.post("/api/admin/login", (req, res) => {
+  if (req.body?.username === adminUser && req.body?.password === adminPassword) return res.json({ ok: true });
+  res.status(401).json({ error: "Login falsch" });
+});
+
 app.get("/api/health", async (_req, res) => {
   await (await db()).command({ ping: 1 });
   res.json({ ok: true });
