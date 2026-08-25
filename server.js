@@ -48,6 +48,15 @@ app.get("/api/surveys", async (_req, res) => {
   res.json(docs);
 });
 
+app.get("/api/surveys/:id", async (req, res) => {
+  const survey = await (await db()).collection("surveys").findOne(
+    { id: req.params.id },
+    { projection: { _id: 0 } }
+  );
+  if (!survey) return res.status(404).json({ error: "Umfrage nicht gefunden" });
+  res.json(survey);
+});
+
 app.post("/api/surveys", requireAdmin, async (req, res) => {
   const survey = { ...req.body, updatedAt: new Date() };
   if (!survey.id || !survey.title || !Array.isArray(survey.questions)) return res.status(400).json({ error: "Ungültige Umfrage" });
